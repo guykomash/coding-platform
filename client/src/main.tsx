@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
+// import App from './App.tsx';
 import About from './pages/About.tsx';
-import Codeblock from './pages/Codeblock.tsx';
+import Codeblock from './pages/CodeBlock.tsx';
 import Lobby from './pages/Lobby.tsx';
 import './index.css';
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: 'codeblock/:codeblockId',
+    path: 'codeblock/:codeBlockId',
     element: <Codeblock />,
   },
 ]);

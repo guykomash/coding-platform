@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import { CodeBlockItems } from '../types.ts';
 
 import { Link } from 'react-router-dom';
 
-const Lobby: React.FC = () => {
+const Lobby = () => {
   const [codeBlocks, setCodeblocks] = useState<CodeBlockItems>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,9 +38,10 @@ const Lobby: React.FC = () => {
       ) : codeBlocks.length > 0 ? (
         codeBlocks.map((cb) => (
           <div key={cb.id}>
-            <button>
-              <Link to={`codeblock/${cb.id}`}>{cb.name}</Link>
-            </button>
+            <Link to={`codeblock/${cb.id}`}>
+              {' '}
+              <button>{cb.name}</button>
+            </Link>
           </div>
         ))
       ) : (

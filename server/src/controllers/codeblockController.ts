@@ -4,28 +4,22 @@ const codeblocks = [
   {
     id: '1',
     name: 'Hello World',
-    codeLines: ['let x = "Hello World";', "console.log(x)'"],
+    templateCode: `let x = "Hello World";\nconsole.log(x);`,
   },
   {
     id: '2',
     name: 'Catching Errors',
-    codeLines: [
-      'try {',
-      'console.log(x)',
-      '} catch (err) {',
-      'console.log(err)',
-      '}',
-    ],
+    templateCode: `try {\nconsole.log(x)\n} catch (err) {\nconsole.log(err)\n}`,
   },
   {
     id: '3',
     name: 'Async case',
-    codeLines: ['async await and stuff...', 'asyns await and stuff...'],
+    templateCode: `// async await and stuff...\n// asyns await and stuff...`,
   },
   {
     id: '4',
     name: '== vs ===',
-    codeLines: ["console.log(4 == '4')", "console.log(4==='4')"],
+    templateCode: `console.log(4 == '4');\nconsole.log(4==='4');`,
   },
 ];
 // getting

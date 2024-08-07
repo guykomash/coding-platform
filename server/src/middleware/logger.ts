@@ -6,6 +6,7 @@ export default function logger(
   res: Response,
   next: NextFunction
 ) {
-  console.log(`LOGGER: ${req.method}  ${req.url}`);
+  if (!req.url.startsWith('/socket'))
+    console.log(`LOGGER: ${req.method}  ${req.url}`);
   next();
 }

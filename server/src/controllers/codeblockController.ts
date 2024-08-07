@@ -24,8 +24,6 @@ const codeblocks = [
 ];
 // getting
 export function getAll(req: Request, res: Response) {
-  console.log('fetchAll() in codeblockController');
-
   res.status(200).send(JSON.stringify(codeblocks));
 }
 

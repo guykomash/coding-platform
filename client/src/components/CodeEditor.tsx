@@ -1,24 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
-import { Editor, EditorProps } from '@monaco-editor/react';
-import { CodeBlockItem } from '../types';
+// import { useEffect, useState } from 'react';
+import { Editor } from '@monaco-editor/react';
+
 import Output from './Output';
 
 interface CodeEditorProps {
-  codeBlock: CodeBlockItem | object;
+  code: string;
+  handleCodeChange: (code: string) => void;
+  role: string;
 }
 
-const CodeEditor = ({ codeBlock }: CodeEditorProps) => {
-  const [value, setValue] = useState<string>('');
+const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
+  // useEffect(() => {
 
-  useEffect(() => {
-    const getDefaultValue = (codeBlock: CodeEditorProps['codeBlock']) => {
-      const template =
-        (codeBlock as CodeBlockItem).templateCode || 'Happy coding!';
-      setValue(template);
-    };
+  //   const getDefaultValue = (codeBlock: CodeEditorProps['codeBlock']) => {
+  //     const template =
+  //       (codeBlock as CodeBlockItem).templateCode || 'Happy coding!';
+  //     setCode(template);
+  //   };
 
-    getDefaultValue(codeBlock);
-  }, []);
+  //   getDefaultValue(codeBlock);
+  // }, []);
 
   return (
     <div
@@ -45,16 +46,16 @@ const CodeEditor = ({ codeBlock }: CodeEditorProps) => {
           defaultLanguage="javascript"
           //   defaultValue={}
           theme="vs-dark"
-          value={value}
-          onChange={(newValue: string | undefined) => {
-            setValue(newValue || '');
+          value={code}
+          onChange={(c: string | undefined) => {
+            handleCodeChange(c || '');
             // console.log(newValue);
           }}
-          //   options={{ readOnly: true }}
+          options={{ readOnly: role === 'Mentor' }}
         />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-        <Output code={value} />
+        <Output code={code} />
       </div>
     </div>
   );

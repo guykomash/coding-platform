@@ -14,12 +14,14 @@ const Output = ({ code }: OutputProps) => {
       console.log(`code not good`);
     }
     try {
+      setOutput('Running Code...');
       const response: AxiosResponse = await executeCode(code);
       const stdout = response.data.run.stdout;
       const stderr = response.data.run.stderr;
-      setOutput(stdout);
       if (stderr) {
-        console.log(stderr);
+        setOutput(stderr);
+      } else {
+        setOutput(stdout);
       }
     } catch (err) {
       setOutput('Something went wrong...');

@@ -1,7 +1,6 @@
-export interface SocketData {
-  role: string;
-}
-
-export interface User {
-  role: 'mentor' | 'student';
+export interface CodeBlock {
+  id: string;
+  name: string;
+  templateCode: string;
+  solutionEval: string;
 }

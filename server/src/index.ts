@@ -3,33 +3,85 @@ const app = express();
 const PORT = 5000;
 
 // Types
-import { SocketData, User } from './types';
+import { CodeBlock } from './types';
 
-// Middlewares Imports
+// Middlewares imports
 import cors from 'cors';
 import logger from './middleware/logger';
 import { corsOptions } from './config/corsOptions';
 
-// Routes Imports
+// Routes imports
 import codeBlockRouter from './routes/codeblockRoute';
 
+// Controllers imports
+import { getCodeBlockData } from './controllers/codeblockController';
+
 // Socket
-import { createServer } from 'http';
+import { createServer, get } from 'http';
 import { Server } from 'socket.io';
 
 const server = createServer(app);
 const io = new Server(server, {
   cors: corsOptions,
 });
+
 // Key = socket.id, Value = {role (mentor or student), roomId}
 let socketIdToRoleRoom: Map<string, { role: string; roomId: string }> =
   new Map();
 
 let roomIdToSocketIds: Map<string, string[]> = new Map(); // Key = roomId (codeBlockId), Value = all socket.id in that room.
 
+let roomIdToCodeBlock: Map<string, CodeBlock> = new Map();
+
+// Helper Functions.
+function checkSolution(solutionEval: string | null, code: string): boolean {
+  if (!solutionEval) {
+    return false;
+  }
+  try {
+    const codeEval = eval(code) || '';
+    // console.log(`solEval = ${solutionEval}`);
+    // console.log(`codeEval = ${codeEval}`);
+
+    const isSolved = JSON.stringify(solutionEval) === JSON.stringify(codeEval);
+    return isSolved;
+  } catch (err) {
+    return false;
+  }
+}
+
+// maintaining the codeblocks in the map.
+async function getCodeBlock(roomId: string) {
+  let savedCodeBlock = roomIdToCodeBlock.get(roomId);
+  if (savedCodeBlock) {
+    const { name, templateCode, solutionEval } = savedCodeBlock;
+    if (name && templateCode && solutionEval) {
+      return savedCodeBlock;
+    }
+  }
+
+  // Code block is not saved, fetch the code block and save in map.
+  const codeBlock = await getCodeBlockData(roomId);
+  if (!codeBlock) {
+    return;
+  }
+  const { name, templateCode, solutionEval } = codeBlock;
+  if (!name || !templateCode || !solutionEval) {
+    return;
+  }
+
+  // Save code block.
+  roomIdToCodeBlock.set(roomId, codeBlock);
+  return codeBlock;
+}
+
 io.on('connection', (socket) => {
-  socket.on('joinRoom', (roomId: string) => {
+  socket.on('joinRoom', async (roomId: string) => {
     socket.join(roomId);
+
+    const codeBlock = await getCodeBlock(roomId);
+    socket.emit('initCodeBlock', codeBlock);
+
     let socketIdsInRoom: string[] | undefined = roomIdToSocketIds.get(roomId);
     if (!socketIdsInRoom) {
       console.log(roomIdToSocketIds);
@@ -38,7 +90,6 @@ io.on('connection', (socket) => {
       socket.emit('role', 'Mentor');
       roomIdToSocketIds.set(roomId, [socket.id]);
       console.log(`Mentor ${socket.id} in ${roomId} connected.`);
-      console.log(roomIdToSocketIds);
     } else {
       // Room is not empty. Join room as a student.
 
@@ -53,15 +104,23 @@ io.on('connection', (socket) => {
           roomIdToSocketIds.get(roomId)?.length
         );
         console.log(`Student ${socket.id} in ${roomId} connected. `);
-        console.log(roomIdToSocketIds);
       }
     }
   });
 
-  socket.on('codeChange', (codeChange) => {
+  socket.on('codeChange', async (codeChange) => {
     if (codeChange) {
       const { roomId, code } = codeChange;
       socket.to(roomId).emit('codeChange', code);
+
+      const { solutionEval } = (await getCodeBlock(roomId)) || {
+        solutionEval: null,
+      };
+
+      const isSolved = checkSolution(solutionEval, code);
+
+      console.log(`code solved = ${isSolved}`);
+      socket.to(roomId).emit('codeSolved', isSolved);
     }
   });
 

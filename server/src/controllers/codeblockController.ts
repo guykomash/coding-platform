@@ -1,33 +1,19 @@
 import { Request, Response } from 'express';
 
+import { CodeBlock } from '../models/codeblock';
+
 const codeblocks = [
   {
-    id: '1',
+    codeBlockId: '1',
     name: 'Hello World',
-    templateCode: `let x = "Hello World";\nreturn x;`,
+    templateCode: `// Make the function return "Hello World"\nfunction getHelloWorld() {}\ngetHelloWorld();`,
     solutionEval: `Hello World`,
-  },
-  {
-    id: '2',
-    name: 'Catching Errors',
-    templateCode: `try {\nconsole.log(x)\n} catch (err) {\nconsole.log(err)\n}`,
-    solutionEval: ``,
-  },
-  {
-    id: '3',
-    name: 'Async case',
-    templateCode: `// async await and stuff...\n// asyns await and stuff...\nreturn (2 + 2)`,
-    solutionEval: `4`,
-  },
-  {
-    id: '4',
-    name: '== vs ===',
-    templateCode: `console.log(4 == '4');\nconsole.log(4==='4');`,
-    solutionEval: ``,
   },
 ];
 
+// implement this?
 export async function getAll(req: Request, res: Response) {
+  await saveCodeBlock();
   res.status(200).send(JSON.stringify(codeblocks));
 }
 
@@ -41,7 +27,7 @@ export async function getCodeBlock(req: Request, res: Response) {
     }
 
     // get the code block (from db)
-    const codeBlock = codeblocks.find((cb) => cb.id === codeblockId);
+    const codeBlock = codeblocks.find((cb) => cb.codeBlockId === codeblockId);
     if (!codeBlock) {
       return res
         .status(400)
@@ -69,7 +55,7 @@ export async function getCodeBlockData(codeBlockId: string) {
 
     // Implement later with db
     // get the code block (from db) => should be awaited
-    const codeBlock = codeblocks.find((cb) => cb.id === codeBlockId);
+    const codeBlock = codeblocks.find((cb) => cb.codeBlockId === codeBlockId);
     if (!codeBlock) {
       console.error(
         `getCodeBlockData(): No code block with codeBlockId=${codeBlockId}`
@@ -81,5 +67,25 @@ export async function getCodeBlockData(codeBlockId: string) {
   } catch (err) {
     console.error(err);
     return;
+  }
+}
+
+// export async function
+
+export async function saveCodeBlock() {
+  console.log('save code block');
+  const codeblock = new CodeBlock({
+    codeBlockId: '1',
+    name: 'Hello World',
+    templateCode: `// Make the function return "Hello World"\nfunction getHelloWorld() {}\ngetHelloWorld();`,
+    solutionEval: `Hello World`,
+  });
+
+  const _id = await CodeBlock.exists({ codeBlockId: codeblock.codeBlockId });
+  if (!_id) {
+    await codeblock.save();
+    console.log('created codeblock', codeblock);
+  } else {
+    console.log(`codeBlockId ${codeblock.codeBlockId} exists `);
   }
 }

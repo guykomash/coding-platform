@@ -96,20 +96,32 @@ const CodeBlock = () => {
   };
 
   return (
-    <section className="codeblock">
-      <h1>Code Block {codeBlockName}</h1>
+    <div className="codeblock">
+      <h1>Code Block</h1>
+      <h2>{codeBlockName}</h2>
+      <button onClick={() => navigate('/')}>Back to Home Page</button>
+
       {loading ? (
         <div>loading code block...</div>
       ) : error ? (
         <div>error</div>
       ) : (
-        <>
+        <div className="platfrom">
           <div className="info">
             <p>
-              Connected as: <strong>{role}</strong>
+              Connected as:{' '}
+              <strong
+                style={
+                  role === 'Student'
+                    ? { color: '#ffd966' }
+                    : { color: '#5ad25a' }
+                }
+              >
+                {role}
+              </strong>
             </p>
             <p>
-              Student connected: <strong>{studentCounter}</strong>
+              Students in room: <strong>{studentCounter}</strong>
             </p>
           </div>
 
@@ -128,9 +140,9 @@ const CodeBlock = () => {
               role={role}
             />
           )}
-        </>
+        </div>
       )}
-    </section>
+    </div>
   );
 };
 

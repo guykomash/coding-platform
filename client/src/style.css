@@ -3,39 +3,97 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* background-color: #100b12; */
 }
 
+.codeblockButtonWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.codeblock button {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.platform {
+  width: 80em;
+  height: 90em;
+}
 .info {
   display: flex;
   flex-direction: row;
   align-content: center;
   justify-content: space-around;
   width: 100%;
+  background-color: #312136;
+  color: #f2f2f2;
+  border-radius: 1rem 1rem 0 0;
+  font-size: 14px;
 }
-
+.editor {
+  margin: 10px;
+  border: 1px solid #312136;
+}
 .editorDiv {
-  width: 80%;
+  width: 70em;
+  height: 40em;
   display: flex;
   flex-direction: row;
   justify-content: center;
   background-color: #100b12;
-  padding: '1rem';
+  max-width: 100em;
+  border-radius: 0 0 1rem 1rem;
 }
 
-.codeDiv {
-  width: 100%;
-  height: auto;
-  max-height: 90%;
-  margin: 5px;
-}
 .editorDiv h2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
   width: '100%';
   color: #f2f2f2;
-  padding-left: 1rem;
-  text-align: center;
+  padding-left: 2rem;
+  text-align: start;
 }
 
-.outputDiv {
+.codeDiv button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.codeDiv {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 5px;
+  /* margin: 5px; */
+  /* border: 1px solid #f2f2f2; */
+  /* border-radius: '0 0 1rem 1rem'; */
+  /* align-items: stretch; */
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.output button {
+  /* padding-left: 2rem; */
+  margin-left: 1rem;
+  color: #6aa84f;
+}
+.outputText {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid #f2f2f2; */
+  justify-content: start;
+  align-items: start;
+  border-radius: '1rem';
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  color: #f2f2f2;
 }

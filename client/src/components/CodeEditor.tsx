@@ -26,10 +26,9 @@ const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
       <div className="codeDiv">
         <h2>Code</h2>
         <Editor
-          // min
-          className="codeDiv"
           defaultLanguage="javascript"
-          //   defaultValue={}
+          height={'87%'}
+          className="editor"
           theme="vs-dark"
           value={code}
           onChange={(c: string | undefined) => {
@@ -39,7 +38,7 @@ const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
           options={{ readOnly: role === 'Mentor' }}
         />
       </div>
-      <div className="outputDiv">
+      <div className="codeDiv">
         <Output code={code} />
       </div>
     </div>

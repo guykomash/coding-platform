@@ -1,7 +1,6 @@
 export interface CodeBlockItem {
-  id: number;
+  codeBlockId: string;
   name: string;
-  templateCode: string;
 }
 
 export type CodeBlockItems = CodeBlockItem[];

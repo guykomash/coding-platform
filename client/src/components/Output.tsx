@@ -30,27 +30,13 @@ const Output = ({ code }: OutputProps) => {
   };
 
   return (
-    <>
+    <div className="output">
       <h2>Output</h2>
-      <button style={{ color: '#6aa84f' }} onClick={() => runCode()}>
+      <button style={{  }} onClick={() => runCode()}>
         Run Code
       </button>
-      <div
-        style={{
-          border: '1px solid #f2f2f2',
-          borderRadius: '1rem',
-          height: '500px',
-          width: '90%',
-          padding: '1rem',
-          marginLeft: '5rem',
-          marginRight: '5rem',
-          marginTop: '1rem',
-          color: '#f2f2f2',
-        }}
-      >
-        {output}
-      </div>
-    </>
+      <div className="outputText">{output}</div>
+    </div>
   );
 };
 

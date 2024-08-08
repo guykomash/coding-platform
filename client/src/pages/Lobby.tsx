@@ -37,8 +37,8 @@ const Lobby = () => {
         <div>Something went wrong. try again later!</div>
       ) : codeBlocks.length > 0 ? (
         codeBlocks.map((cb) => (
-          <div key={cb.id}>
-            <Link to={`codeblock/${cb.id}`}>
+          <div key={cb.codeBlockId}>
+            <Link to={`codeblock/${cb.codeBlockId}`}>
               {' '}
               <button>{cb.name}</button>
             </Link>

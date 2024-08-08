@@ -1,6 +1,7 @@
-export interface CodeBlock {
-  id: string;
+export interface CodeBlockInterface {
+  codeBlockId: string;
   name: string;
+  description?: string;
   templateCode: string;
   solutionEval: string;
 }

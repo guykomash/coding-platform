@@ -25,25 +25,6 @@ const CodeBlock = () => {
   const [isSolved, setIsSolved] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch code block data
-    // const fetchCodeBlock = async () => {
-    //   try {
-    //     const response: AxiosResponse = await axios.get(
-    //       `/codeblock/${codeBlockId}`
-    //     );
-    //     setCodeBlock(response.data);
-    //     setCode(response.data.templateCode);
-    //     setError(null);
-    //   } catch (err) {
-    //     console.log(err);
-    //     setCodeBlock({});
-    //     setError('Failed to fetch Code blocks');
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchCodeBlock();
-
     const initCodeBlock = (codeBlock: CodeBlockItem) => {
       console.log(codeBlock);
       if (!codeBlock) {
@@ -69,17 +50,17 @@ const CodeBlock = () => {
       return;
     };
 
-    // Connect to socket and join room
     socket.connect();
-    socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
-    socket.emit('joinRoom', codeBlockId);
 
     // Socket listeners
+    socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
     socket.on('codeChange', (code: string) => setCode(code));
     socket.on('codeSolved', (isSolved: boolean) => setIsSolved(isSolved));
     socket.on('role', (role: string) => setRole(role));
     socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
     socket.on('mentorDisconnected', () => navigate('/'));
+
+    socket.emit('joinRoom', codeBlockId);
 
     return () => {
       // Remove the listeners.
@@ -97,8 +78,11 @@ const CodeBlock = () => {
 
   return (
     <div className="codeblock">
-      <h1>Code Block</h1>
-      <h2>{codeBlockName}</h2>
+      <h1 className="codeblockname">
+        <strong>Code Block:&nbsp;&nbsp;</strong>
+        {codeBlockName}
+      </h1>
+
       <button onClick={() => navigate('/')}>Back to Home Page</button>
 
       {loading ? (
@@ -126,13 +110,14 @@ const CodeBlock = () => {
           </div>
 
           {isSolved ? (
-            <>
+            <div className="smileyDiv">
               <img src={Smiley} alt="code is correct" />
+
               <button onClick={() => setIsSolved(false)}>
                 {' '}
-                Back To Editor
+                Back to Editor
               </button>
-            </>
+            </div>
           ) : (
             <CodeEditor
               code={code}

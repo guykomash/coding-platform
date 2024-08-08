@@ -2,10 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  /* background-color: #100b12; */
+  justify-content: space-between;
 }
 
+.codeblockname {
+  color: #000;
+  border-bottom: #312136 2px solid;
+}
 .codeblockButtonWrapper {
   display: flex;
   flex-direction: row;
@@ -96,4 +99,10 @@
   margin-left: 10px;
   width: 100%;
   color: #f2f2f2;
+}
+
+.smileyDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

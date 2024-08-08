@@ -22,27 +22,12 @@ const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
   // }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: '#100b12 ',
-        padding: '1rem',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-        <h2
-          style={{
-            width: '100%',
-            color: '#f2f2f2',
-            textAlign: 'center',
-          }}
-        >
-          Code
-        </h2>
+    <div className="editorDiv">
+      <div className="codeDiv">
+        <h2>Code</h2>
         <Editor
-          height="600px"
-          width="100%"
+          // min
+          className="codeDiv"
           defaultLanguage="javascript"
           //   defaultValue={}
           theme="vs-dark"
@@ -54,7 +39,7 @@ const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
           options={{ readOnly: role === 'Mentor' }}
         />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+      <div className="outputDiv">
         <Output code={code} />
       </div>
     </div>

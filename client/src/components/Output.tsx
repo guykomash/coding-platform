@@ -30,18 +30,8 @@ const Output = ({ code }: OutputProps) => {
   };
 
   return (
-    <div
-      style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-    >
-      <h2
-        style={{
-          width: '100%',
-          color: '#f2f2f2',
-          textAlign: 'center',
-        }}
-      >
-        Output
-      </h2>
+    <>
+      <h2>Output</h2>
       <button style={{ color: '#6aa84f' }} onClick={() => runCode()}>
         Run Code
       </button>
@@ -60,7 +50,7 @@ const Output = ({ code }: OutputProps) => {
       >
         {output}
       </div>
-    </div>
+    </>
   );
 };
 

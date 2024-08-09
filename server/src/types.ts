@@ -3,5 +3,5 @@ export interface CodeBlockInterface {
   name: string;
   description?: string;
   templateCode: string;
-  solutionEval: string;
+  solution: string;
 }

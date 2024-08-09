@@ -22,35 +22,41 @@ export const socket = (server: httpServer) => {
   let roomIdToCodeBlock: Map<string, CodeBlockInterface> = new Map();
 
   // Helper Functions.
-  function checkSolution(solutionEval: string | null, code: string): boolean {
-    if (!solutionEval) {
+  function checkSolution(solution: string | null, code: string): boolean {
+    if (!solution) {
+      console.log('no solution');
       return false;
     }
     try {
-      const codeEval = eval(code) || '';
-
+      console.log(solution);
+      console.log('-------------');
+      // evaluate and see if match.
+      const codeEval = eval(code);
+      console.log('codeEval', codeEval);
+      const solutionEval = eval(solution);
+      console.log('solEval', solutionEval);
       const isSolved =
         JSON.stringify(solutionEval) === JSON.stringify(codeEval);
+      console.log(isSolved);
       return isSolved;
     } catch (err) {
+      console.log(err);
       return false;
     }
   }
 
   // maintaining the codeblocks in the map.
   async function getCodeBlock(roomId: string) {
-    console.log(`getCodeBlock(${roomId})`);
     let savedCodeBlock = roomIdToCodeBlock.get(roomId);
     if (savedCodeBlock) {
-      const { name, templateCode, solutionEval } = savedCodeBlock;
-      if (name && templateCode && solutionEval) {
+      const { name, templateCode, solution } = savedCodeBlock;
+      if (name && templateCode && solution) {
         return savedCodeBlock;
       }
     }
 
     // Code block is not saved, fetch the code block and save in map.
     const codeBlock = await getCodeBlockData(roomId);
-    console.log(`got code block`, codeBlock);
     if (!codeBlock) {
       return;
     }
@@ -105,14 +111,17 @@ export const socket = (server: httpServer) => {
         const { roomId, code } = codeChange;
         socket.to(roomId).emit('codeChange', code);
 
-        const { solutionEval } = (await getCodeBlock(roomId)) || {
-          solutionEval: null,
+        const { solution } = (await getCodeBlock(roomId)) || {
+          solution: null,
         };
 
-        const isSolved = checkSolution(solutionEval, code);
+        const isSolved = checkSolution(solution, code);
 
-        console.log(`code solved = ${isSolved}`);
-        socket.to(roomId).emit('codeSolved', isSolved);
+        if (isSolved) {
+          console.log('Code got solved!');
+        }
+        // socket.in to include this socket also.
+        socket.in(roomId).emit('codeSolved', isSolved);
       }
     });
 

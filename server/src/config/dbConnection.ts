@@ -6,7 +6,6 @@ export const connectDB = async () => {
     if (!MONGODB_URI) {
       throw new Error('MongoDB URI was not found.');
     }
-    console.log(`connecting to ${MONGODB_URI}`);
     await mongoose.connect(MONGODB_URI, {});
   } catch (err) {
     console.error(err);

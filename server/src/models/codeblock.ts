@@ -7,7 +7,7 @@ const codeblockSchema = new Schema<CodeBlockInterface>({
   name: { type: String, required: true },
   description: String,
   templateCode: { type: String, required: true },
-  solutionEval: { type: String, required: true },
+  solution: { type: String, required: true },
 });
 
 export const CodeBlock = model<CodeBlockInterface>(

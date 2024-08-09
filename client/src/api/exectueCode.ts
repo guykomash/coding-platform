@@ -13,6 +13,7 @@ export const executeCode = async (code: string): Promise<AxiosResponse> => {
     const response: AxiosResponse = await pistonAPI.post('/execute', {
       language: 'javascript',
       version: version,
+      PISTON_DISABLE_NETWORKING: false,
       files: [
         {
           name: 'code.js',
